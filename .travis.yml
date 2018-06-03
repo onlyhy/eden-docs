@@ -1,0 +1,35 @@
+language: node_js
+node_js: 
+    - '10'
+
+# Travis-CI Caching
+cache:
+  directories:
+    - node_modules
+
+# S: Build Lifecycle
+install:
+  - npm install
+
+before_script:
+
+script:
+  - npm run build
+
+after_script:
+  - cd docs/.vuepress/dist
+  - git init
+  - git config user.name Sakuyakun
+  - git config user.email 
+  - git add -A
+  - git commit -m "deploy"
+  - git push --force --quiet "https://${GH_TOKEN}@github.com/Sakuyakun/vue-eden.git" master:gh-pages
+# E: Build LifeCycle
+
+branches:
+  only:
+    - master
+    
+env:
+ global:
+   #- GH_REF: github.com/yimogit/metools.git
